@@ -17,7 +17,8 @@ async function initialize(accounts,networkName) {
 
   await timer.initialize(
       timerParams.startTime,
-      timerParams.hardCapTimer,
+      timerParams.refundTime,
+      timerParams.endTime,
       timerParams.softCap,
       presale.address,
       owner

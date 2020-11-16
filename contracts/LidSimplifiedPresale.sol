@@ -19,8 +19,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
 
     uint public maxBuyPerAddress;
 
-    uint public referralBP;
-
     uint public uniswapEthBP;
     uint public lidEthBP;
 
@@ -69,7 +67,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         uint _maxBuyPerAddress,
         uint _uniswapEthBP,
         uint _lidEthBP,
-        uint _referralBP,
         uint _hardcap,
         address owner,
         LidSimplifiedPresaleTimer _timer,
@@ -94,7 +91,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         uniswapEthBP = _uniswapEthBP;
         lidEthBP = _lidEthBP;
 
-        referralBP = _referralBP;
         hardcap = _hardcap;
 
         uniswapRouter = _uniswapRouter;
@@ -198,10 +194,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
 
     function updateMaxBuy(uint valueWei) external onlyOwner {
         maxBuyPerAddress = valueWei;
-    }
-
-    function updateReferralBP(uint _referralBP) external onlyOwner {
-        referralBP = _referralBP;
     }
 
     function updateEthBP(uint _uniswapEthBP, uint _lidEthBP) external onlyOwner {

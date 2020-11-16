@@ -11,7 +11,6 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
 
     uint public startTime;
     uint public endTime;
-    uint public hardCapTimer;
     uint public softCap;
     address public presale;
 
@@ -22,7 +21,6 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         uint _startTime,
         uint _refundTime,
         uint _endTime,
-        uint _hardCapTimer,
         uint _softCap,
         address _presale,
         address owner
@@ -31,7 +29,6 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         startTime = _startTime;
         refundTime = _refundTime;
         endTime = _endTime;
-        hardCapTimer = _hardCapTimer;
         softCap = _softCap;
         presale = _presale;
         //Due to issue in oz testing suite, the msg.sender might not be owner

@@ -21,7 +21,6 @@ async function initialize(accounts,networkName) {
       presaleParams.maxBuyPerAddress,
       presaleParams.uniswapEthBP,
       presaleParams.lidEthBP,
-      presaleParams.referralBP,
       presaleParams.hardcap,
       owner,
       timer.address,

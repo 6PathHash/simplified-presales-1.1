@@ -18,8 +18,6 @@ async function initialize(accounts,networkName) {
   await redeemer.initialize(
       redeemerParams.redeemBP,
       redeemerParams.redeemInterval,
-      redeemerParams.bonusRangeStart,
-      redeemerParams.bonusRangeBP,
       presale.address,
       owner
     )
