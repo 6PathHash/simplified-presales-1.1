@@ -1,4 +1,5 @@
-pragma solidity 0.5.16;
+pragma solidity =0.5.16;
+
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP. Does not include
@@ -319,6 +320,7 @@ contract Context is Initializable {
     }
 }
 
+
 /**
  * @dev Contract module which provides a basic access control mechanism, where
  * there is an account (an owner) that can be granted exclusive access to
@@ -622,8 +624,6 @@ contract ReentrancyGuard is Initializable {
 }
 
 
-pragma solidity =0.5.16;
-
 interface IUniswapV2Router01 {
     function factory() external pure returns (address);
 
@@ -725,20 +725,24 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
 
     uint public startTime;
     uint public endTime;
-    uint public hardCapTimer;
     uint public softCap;
     address public presale;
 
+    uint public refundTime;
+    uint public maxBalance;
+
     function initialize(
         uint _startTime,
-        uint _hardCapTimer,
+        uint _refundTime,
+        uint _endTime,
         uint _softCap,
         address _presale,
         address owner
     ) external initializer {
         Ownable.initialize(msg.sender);
         startTime = _startTime;
-        hardCapTimer = _hardCapTimer;
+        refundTime = _refundTime;
+        endTime = _endTime;
         softCap = _softCap;
         presale = _presale;
         //Due to issue in oz testing suite, the msg.sender might not be owner
@@ -749,6 +753,10 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         startTime = time;
     }
 
+    function setRefundTime(uint time) external onlyOwner {
+        refundTime = time;
+    }
+
     function setEndTime(uint time) external onlyOwner {
         endTime = time;
     }
@@ -757,13 +765,10 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         softCap = valueWei;
     }
 
-    function updateEndTime() external returns (uint) {
-        if (endTime != 0) return endTime;
-        if (presale.balance >= softCap) {
-            endTime = now.add(hardCapTimer);
-            return endTime;
-        }
-        return 0;
+    function updateRefunding() external returns (bool) {
+        if (maxBalance < presale.balance) maxBalance = presale.balance;
+        if (maxBalance < softCap && now > refundTime) return true;
+        return false;
     }
 
     function isStarted() external view returns (bool) {
@@ -779,10 +784,6 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
 
     uint public redeemBP;
     uint public redeemInterval;
-
-    uint[] public bonusRangeStart;
-    uint[] public bonusRangeBP;
-    uint public currentBonusIndex;
 
     uint public totalShares;
     uint public totalDepositors;
@@ -800,99 +801,34 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
     function initialize(
         uint _redeemBP,
         uint _redeemInterval,
-        uint[] calldata _bonusRangeStart,
-        uint[] calldata _bonusRangeBP,
         address _presale,
         address owner
     ) external initializer {
-        Ownable.initialize(msg.sender);
+        Ownable.initialize(owner);
 
         redeemBP = _redeemBP;
         redeemInterval = _redeemInterval;
         presale = _presale;
-
-        require(
-            _bonusRangeStart.length == _bonusRangeBP.length,
-            "Must have equal values for bonus range start and BP"
-        );
-        require(_bonusRangeStart.length <= 10, "Cannot have more than 10 items in bonusRange");
-        for (uint i = 0; i < _bonusRangeStart.length; ++i) {
-            bonusRangeStart.push(_bonusRangeStart[i]);
-        }
-        for (uint i = 0; i < _bonusRangeBP.length; ++i) {
-            bonusRangeBP.push(_bonusRangeBP[i]);
-        }
-
-        //Due to issue in oz testing suite, the msg.sender might not be owner
-        _transferOwnership(owner);
     }
 
     function setClaimed(address account, uint amount) external onlyPresaleContract {
         accountClaimedTokens[account] = accountClaimedTokens[account].add(amount);
     }
 
-    function setDeposit(address account, uint deposit, uint postDepositEth) external onlyPresaleContract {
+    function setDeposit(address account, uint deposit) external onlyPresaleContract {
         if (accountDeposits[account] == 0) totalDepositors = totalDepositors.add(1);
         accountDeposits[account] = accountDeposits[account].add(deposit);
-        uint sharesToAdd;
-        if (currentBonusIndex.add(1) >= bonusRangeBP.length) {
-            //final bonus rate
-            sharesToAdd = deposit.addBP(bonusRangeBP[currentBonusIndex]);
-        } else if (postDepositEth < bonusRangeStart[currentBonusIndex.add(1)]) {
-            //Purchase doesnt push to next start
-            sharesToAdd = deposit.addBP(bonusRangeBP[currentBonusIndex]);
-        } else {
-            //purchase straddles next start
-            uint previousBonusBP = bonusRangeBP[currentBonusIndex];
-            uint newBonusBP = bonusRangeBP[currentBonusIndex.add(1)];
-            uint newBonusDeposit = postDepositEth.sub(bonusRangeStart[currentBonusIndex.add(1)]);
-            uint previousBonusDeposit = deposit.sub(newBonusDeposit);
-            sharesToAdd = newBonusDeposit.addBP(newBonusBP).add(
-                previousBonusDeposit.addBP(previousBonusBP));
-            currentBonusIndex = currentBonusIndex.add(1);
-        }
+        uint sharesToAdd = deposit;
         accountShares[account] = accountShares[account].add(sharesToAdd);
         totalShares = totalShares.add(sharesToAdd);
     }
 
-    function updateBonus(
-        uint[] calldata _bonusRangeStart,
-        uint[] calldata _bonusRangeBP
-    ) external onlyOwner {
-        require(
-            _bonusRangeStart.length == _bonusRangeBP.length,
-            "Must have equal values for bonus range start and BP"
-        );
-        require(_bonusRangeStart.length <= 10, "Cannot have more than 10 items in bonusRange");
-        for (uint i = 0; i < _bonusRangeStart.length; ++i) {
-            bonusRangeStart.push(_bonusRangeStart[i]);
-        }
-        for (uint i = 0; i < _bonusRangeBP.length; ++i) {
-            bonusRangeBP.push(_bonusRangeBP[i]);
-        }
-    }
-
-    function calculateRatePerEth(uint totalPresaleTokens, uint depositEth, uint hardCap) external view returns (uint) {
-
-        uint tokensPerEtherShare = totalPresaleTokens
+    function calculateRatePerEth(uint totalPresaleTokens, uint hardCap) external pure returns (uint) {
+        return totalPresaleTokens
         .mul(1 ether)
         .div(
             getMaxShares(hardCap)
         );
-
-        uint bp;
-        if (depositEth >= bonusRangeStart[bonusRangeStart.length.sub(1)]) {
-            bp = bonusRangeBP[bonusRangeBP.length.sub(1)];
-        } else {
-            for (uint i = 1; i < bonusRangeStart.length; ++i) {
-                if (bp == 0) {
-                    if (depositEth < bonusRangeStart[i]) {
-                        bp = bonusRangeBP[i.sub(1)];
-                    }
-                }
-            }
-        }
-        return tokensPerEtherShare.addBP(bp);
     }
 
     function calculateReedemable(
@@ -915,26 +851,24 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
         return claimable;
     }
 
-    function getMaxShares(uint hardCap) public view returns (uint) {
-        uint maxShares;
-        for (uint i = 0; i < bonusRangeStart.length; ++i) {
-            uint amt;
-            if (i < bonusRangeStart.length.sub(1)) {
-                amt = bonusRangeStart[i.add(1)].sub(bonusRangeStart[i]);
-            } else {
-                amt = hardCap.sub(bonusRangeStart[i]);
-            }
-            maxShares = maxShares.add(amt.addBP(bonusRangeBP[i]));
-        }
-        return maxShares;
+    function getMaxShares(uint hardCap) public pure returns (uint) {
+        return hardCap;
     }
 }
+
+// File: contracts\interfaces\IStakeHandler.sol
+
+pragma solidity 0.5.16;
 
 
 interface IStakeHandler {
     function handleStake(address staker, uint stakerDeltaValue, uint stakerFinalValue) external;
     function handleUnstake(address staker, uint stakerDeltaValue, uint stakerFinalValue) external;
 }
+
+// File: contracts\interfaces\ILidCertifiableToken.sol
+
+pragma solidity 0.5.16;
 
 
 interface ILidCertifiableToken {
@@ -1218,14 +1152,11 @@ contract LidSimplifiedPresaleAccess is Initializable {
     }
 }
 
-
 contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausable {
     using BasisPoints for uint;
     using SafeMath for uint;
 
     uint public maxBuyPerAddress;
-
-    uint public referralBP;
 
     uint public uniswapEthBP;
     uint public lidEthBP;
@@ -1251,7 +1182,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
     LidSimplifiedPresaleAccess private access;
     address payable private lidFund;
 
-    mapping(address => uint) public accountEthDeposit;
     mapping(address => uint) public earnedReferrals;
 
     mapping(address => uint) public referralCounts;
@@ -1276,7 +1206,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         uint _maxBuyPerAddress,
         uint _uniswapEthBP,
         uint _lidEthBP,
-        uint _referralBP,
         uint _hardcap,
         address owner,
         LidSimplifiedPresaleTimer _timer,
@@ -1301,7 +1230,6 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         uniswapEthBP = _uniswapEthBP;
         lidEthBP = _lidEthBP;
 
-        referralBP = _referralBP;
         hardcap = _hardcap;
 
         uniswapRouter = _uniswapRouter;
@@ -1388,13 +1316,7 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
     }
 
     function startRefund() external onlyOwner {
-        //TODO: Automatically start refund after timer is passed for softcap reach
-        pause();
-        isRefunding = true;
-    }
-
-    function topUpRefundFund() external payable onlyOwner {
-
+        _startRefund();
     }
 
     function claimRefund(address payable account) external whenPaused {
@@ -1413,50 +1335,48 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         maxBuyPerAddress = valueWei;
     }
 
+    function updateEthBP(uint _uniswapEthBP, uint _lidEthBP) external onlyOwner {
+        uniswapEthBP = _uniswapEthBP;
+        lidEthBP = _lidEthBP;
+    }
+
     function deposit(address payable referrer) public payable nonReentrant whenNotPaused {
         require(timer.isStarted(), "Presale not yet started.");
         require(now >= access.getAccessTime(msg.sender, timer.startTime()), "Time must be at least access time.");
         require(msg.sender != referrer, "Sender cannot be referrer.");
         require(address(this).balance.sub(msg.value) <= hardcap, "Cannot deposit more than hardcap.");
         require(!hasSentToUniswap, "Presale Ended, Uniswap has been called.");
-        uint endTime = timer.updateEndTime();
+        uint endTime = timer.endTime();
         require(!(now > endTime && endTime != 0), "Presale Ended, time over limit.");
         require(
             redeemer.accountDeposits(msg.sender).add(msg.value) <= maxBuyPerAddress,
             "Deposit exceeds max buy per address."
         );
-
-        uint fee = msg.value.mulBP(referralBP);
+        bool _isRefunding = timer.updateRefunding();
+        if(_isRefunding) {
+            _startRefund();
+            return;
+        }
         uint depositEther = msg.value;
         uint excess = 0;
 
-        //Remove fee and refund eth in case final purchase needed to end sale without dust errors
+        //Refund eth in case final purchase needed to end sale without dust errors
         if (address(this).balance > hardcap) {
-            fee = 0;
             excess = address(this).balance.sub(hardcap);
             depositEther = depositEther.sub(excess);
         }
 
-        redeemer.setDeposit(msg.sender, depositEther.sub(fee), address(this).balance.sub(fee));
+        redeemer.setDeposit(msg.sender, depositEther);
 
-        if (excess == 0) {
-            if (referrer != address(0x0) && referrer != msg.sender) {
-                earnedReferrals[referrer] = earnedReferrals[referrer].add(fee);
-                referralCounts[referrer] = referralCounts[referrer].add(1);
-                referrer.transfer(fee);
-            } else {
-                lidFund.transfer(fee);
-            }
-        } else {
+        if (excess != 0) {
             msg.sender.transfer(excess);
         }
     }
 
     function getRefundableEth(address account) public view returns (uint) {
         if (!isRefunding) return 0;
-        //TODO: use account eth deposits insted once switched to referral withdraw pattern
+
         return redeemer.accountDeposits(account)
-            .divBP(10000 - referralBP)
             .sub(refundedEth[account]);
     }
 
@@ -1469,8 +1389,13 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         );
     }
 
-}
+    function _startRefund() internal {
+        //TODO: Automatically start refund after timer is passed for softcap reach
+        pause();
+        isRefunding = true;
+    }
 
+}
 
 contract LidTimeLock is Initializable, Ownable {
     using BasisPoints for uint;

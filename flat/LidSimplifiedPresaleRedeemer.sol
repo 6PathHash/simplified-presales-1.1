@@ -569,20 +569,24 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
 
     uint public startTime;
     uint public endTime;
-    uint public hardCapTimer;
     uint public softCap;
     address public presale;
 
+    uint public refundTime;
+    uint public maxBalance;
+
     function initialize(
         uint _startTime,
-        uint _hardCapTimer,
+        uint _refundTime,
+        uint _endTime,
         uint _softCap,
         address _presale,
         address owner
     ) external initializer {
         Ownable.initialize(msg.sender);
         startTime = _startTime;
-        hardCapTimer = _hardCapTimer;
+        refundTime = _refundTime;
+        endTime = _endTime;
         softCap = _softCap;
         presale = _presale;
         //Due to issue in oz testing suite, the msg.sender might not be owner
@@ -593,17 +597,22 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         startTime = time;
     }
 
+    function setRefundTime(uint time) external onlyOwner {
+        refundTime = time;
+    }
+
     function setEndTime(uint time) external onlyOwner {
         endTime = time;
     }
 
-    function updateEndTime() external returns (uint) {
-        if (endTime != 0) return endTime;
-        if (presale.balance >= softCap) {
-            endTime = now.add(hardCapTimer);
-            return endTime;
-        }
-        return 0;
+    function updateSoftCap(uint valueWei) external onlyOwner {
+        softCap = valueWei;
+    }
+
+    function updateRefunding() external returns (bool) {
+        if (maxBalance < presale.balance) maxBalance = presale.balance;
+        if (maxBalance < softCap && now > refundTime) return true;
+        return false;
     }
 
     function isStarted() external view returns (bool) {
@@ -619,10 +628,6 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
 
     uint public redeemBP;
     uint public redeemInterval;
-
-    uint[] public bonusRangeStart;
-    uint[] public bonusRangeBP;
-    uint public currentBonusIndex;
 
     uint public totalShares;
     uint public totalDepositors;
@@ -640,101 +645,34 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
     function initialize(
         uint _redeemBP,
         uint _redeemInterval,
-        uint[] calldata _bonusRangeStart,
-        uint[] calldata _bonusRangeBP,
         address _presale,
         address owner
     ) external initializer {
-        Ownable.initialize(msg.sender);
+        Ownable.initialize(owner);
 
         redeemBP = _redeemBP;
         redeemInterval = _redeemInterval;
         presale = _presale;
-
-        require(
-            _bonusRangeStart.length == _bonusRangeBP.length,
-            "Must have equal values for bonus range start and BP"
-        );
-        require(_bonusRangeStart.length <= 10, "Cannot have more than 10 items in bonusRange");
-        for (uint i = 0; i < _bonusRangeStart.length; ++i) {
-            bonusRangeStart.push(_bonusRangeStart[i]);
-        }
-        for (uint i = 0; i < _bonusRangeBP.length; ++i) {
-            bonusRangeBP.push(_bonusRangeBP[i]);
-        }
-
-        //Due to issue in oz testing suite, the msg.sender might not be owner
-        _transferOwnership(owner);
     }
 
     function setClaimed(address account, uint amount) external onlyPresaleContract {
         accountClaimedTokens[account] = accountClaimedTokens[account].add(amount);
     }
 
-    function setDeposit(address account, uint deposit, uint postDepositEth) external onlyPresaleContract {
+    function setDeposit(address account, uint deposit) external onlyPresaleContract {
         if (accountDeposits[account] == 0) totalDepositors = totalDepositors.add(1);
         accountDeposits[account] = accountDeposits[account].add(deposit);
-        uint sharesToAdd;
-        if (currentBonusIndex.add(1) >= bonusRangeBP.length) {
-            //final bonus rate
-            sharesToAdd = deposit.addBP(bonusRangeBP[currentBonusIndex]);
-        } else if (postDepositEth < bonusRangeStart[currentBonusIndex.add(1)]) {
-            //Purchase doesnt push to next start
-            sharesToAdd = deposit.addBP(bonusRangeBP[currentBonusIndex]);
-        } else {
-            //purchase straddles next start
-            uint previousBonusBP = bonusRangeBP[currentBonusIndex];
-            uint newBonusBP = bonusRangeBP[currentBonusIndex.add(1)];
-            uint newBonusDeposit = postDepositEth.sub(bonusRangeStart[currentBonusIndex.add(1)]);
-            uint previousBonusDeposit = deposit.sub(newBonusDeposit);
-            sharesToAdd = newBonusDeposit.addBP(newBonusBP).add(
-                previousBonusDeposit.addBP(previousBonusBP));
-            currentBonusIndex = currentBonusIndex.add(1);
-        }
+        uint sharesToAdd = deposit;
         accountShares[account] = accountShares[account].add(sharesToAdd);
         totalShares = totalShares.add(sharesToAdd);
     }
 
-    function updateBonus(
-        uint[] calldata _bonusRangeStart,
-        uint[] calldata _bonusRangeBP
-    ) external onlyOwner {
-        require(
-            _bonusRangeStart.length == _bonusRangeBP.length,
-            "Must have equal values for bonus range start and BP"
-        );
-        require(_bonusRangeStart.length <= 10, "Cannot have more than 10 items in bonusRange");
-        delete bonusRangeStart;
-        delete bonusRangeBP;
-        for (uint i = 0; i < _bonusRangeStart.length; ++i) {
-            bonusRangeStart.push(_bonusRangeStart[i]);
-        }
-        for (uint i = 0; i < _bonusRangeBP.length; ++i) {
-            bonusRangeBP.push(_bonusRangeBP[i]);
-        }
-    }
-
-    function calculateRatePerEth(uint totalPresaleTokens, uint depositEth, uint hardCap) external view returns (uint) {
-
-        uint tokensPerEtherShare = totalPresaleTokens
+    function calculateRatePerEth(uint totalPresaleTokens, uint hardCap) external pure returns (uint) {
+        return totalPresaleTokens
         .mul(1 ether)
         .div(
             getMaxShares(hardCap)
         );
-
-        uint bp;
-        if (depositEth >= bonusRangeStart[bonusRangeStart.length.sub(1)]) {
-            bp = bonusRangeBP[bonusRangeBP.length.sub(1)];
-        } else {
-            for (uint i = 1; i < bonusRangeStart.length; ++i) {
-                if (bp == 0) {
-                    if (depositEth < bonusRangeStart[i]) {
-                        bp = bonusRangeBP[i.sub(1)];
-                    }
-                }
-            }
-        }
-        return tokensPerEtherShare.addBP(bp);
     }
 
     function calculateReedemable(
@@ -757,17 +695,7 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
         return claimable;
     }
 
-    function getMaxShares(uint hardCap) public view returns (uint) {
-        uint maxShares;
-        for (uint i = 0; i < bonusRangeStart.length; ++i) {
-            uint amt;
-            if (i < bonusRangeStart.length.sub(1)) {
-                amt = bonusRangeStart[i.add(1)].sub(bonusRangeStart[i]);
-            } else {
-                amt = hardCap.sub(bonusRangeStart[i]);
-            }
-            maxShares = maxShares.add(amt.addBP(bonusRangeBP[i]));
-        }
-        return maxShares;
+    function getMaxShares(uint hardCap) public pure returns (uint) {
+        return hardCap;
     }
 }
