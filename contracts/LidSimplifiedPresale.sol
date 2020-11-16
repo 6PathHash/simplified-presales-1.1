@@ -181,13 +181,7 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
     }
 
     function startRefund() external onlyOwner {
-        //TODO: Automatically start refund after timer is passed for softcap reach
-        pause();
-        isRefunding = true;
-    }
-
-    function topUpRefundFund() external payable onlyOwner {
-
+        _startRefund();
     }
 
     function claimRefund(address payable account) external whenPaused {
@@ -206,50 +200,52 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
         maxBuyPerAddress = valueWei;
     }
 
+    function updateReferralBP(uint _referralBP) external onlyOwner {
+        referralBP = _referralBP;
+    }
+
+    function updateEthBP(uint _uniswapEthBP, uint _lidEthBP) external onlyOwner {
+        uniswapEthBP = _uniswapEthBP;
+        lidEthBP = _lidEthBP;
+    }
+
     function deposit(address payable referrer) public payable nonReentrant whenNotPaused {
         require(timer.isStarted(), "Presale not yet started.");
         require(now >= access.getAccessTime(msg.sender, timer.startTime()), "Time must be at least access time.");
         require(msg.sender != referrer, "Sender cannot be referrer.");
         require(address(this).balance.sub(msg.value) <= hardcap, "Cannot deposit more than hardcap.");
         require(!hasSentToUniswap, "Presale Ended, Uniswap has been called.");
-        uint endTime = timer.updateEndTime();
+        uint endTime = timer.endTime();
         require(!(now > endTime && endTime != 0), "Presale Ended, time over limit.");
         require(
             redeemer.accountDeposits(msg.sender).add(msg.value) <= maxBuyPerAddress,
             "Deposit exceeds max buy per address."
         );
-
-        uint fee = msg.value.mulBP(referralBP);
+        bool _isRefunding = timer.updateRefunding();
+        if(_isRefunding) {
+            _startRefund();
+            return;
+        }
         uint depositEther = msg.value;
         uint excess = 0;
 
-        //Remove fee and refund eth in case final purchase needed to end sale without dust errors
+        //Refund eth in case final purchase needed to end sale without dust errors
         if (address(this).balance > hardcap) {
-            fee = 0;
             excess = address(this).balance.sub(hardcap);
             depositEther = depositEther.sub(excess);
         }
 
-        redeemer.setDeposit(msg.sender, depositEther.sub(fee), address(this).balance.sub(fee));
+        redeemer.setDeposit(msg.sender, depositEther);
 
-        if (excess == 0) {
-            if (referrer != address(0x0) && referrer != msg.sender) {
-                earnedReferrals[referrer] = earnedReferrals[referrer].add(fee);
-                referralCounts[referrer] = referralCounts[referrer].add(1);
-                referrer.transfer(fee);
-            } else {
-                lidFund.transfer(fee);
-            }
-        } else {
+        if (excess != 0) {
             msg.sender.transfer(excess);
         }
     }
 
     function getRefundableEth(address account) public view returns (uint) {
         if (!isRefunding) return 0;
-        //TODO: use account eth deposits insted once switched to referral withdraw pattern
+
         return redeemer.accountDeposits(account)
-            .divBP(10000 - referralBP)
             .sub(refundedEth[account]);
     }
 
@@ -260,6 +256,12 @@ contract LidSimplifiedPresale is Initializable, Ownable, ReentrancyGuard, Pausab
             (address(this).balance >= hardcap) ||
             (timer.isStarted() && (now > endTime && endTime != 0))
         );
+    }
+
+    function _startRefund() internal {
+        //TODO: Automatically start refund after timer is passed for softcap reach
+        pause();
+        isRefunding = true;
     }
 
 }

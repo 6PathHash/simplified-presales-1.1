@@ -15,8 +15,13 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
     uint public softCap;
     address public presale;
 
+    uint public refundTime;
+    uint public maxBalance;
+
     function initialize(
         uint _startTime,
+        uint _refundTime,
+        uint _endTime,
         uint _hardCapTimer,
         uint _softCap,
         address _presale,
@@ -24,6 +29,8 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
     ) external initializer {
         Ownable.initialize(msg.sender);
         startTime = _startTime;
+        refundTime = _refundTime;
+        endTime = _endTime;
         hardCapTimer = _hardCapTimer;
         softCap = _softCap;
         presale = _presale;
@@ -35,6 +42,10 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         startTime = time;
     }
 
+    function setRefundTime(uint time) external onlyOwner {
+        refundTime = time;
+    }
+
     function setEndTime(uint time) external onlyOwner {
         endTime = time;
     }
@@ -43,13 +54,10 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         softCap = valueWei;
     }
 
-    function updateEndTime() external returns (uint) {
-        if (endTime != 0) return endTime;
-        if (presale.balance >= softCap) {
-            endTime = now.add(hardCapTimer);
-            return endTime;
-        }
-        return 0;
+    function updateRefunding() external returns (bool) {
+        if (maxBalance < presale.balance) maxBalance = presale.balance;
+        if (maxBalance < softCap && now > refundTime) return true;
+        return false;
     }
 
     function isStarted() external view returns (bool) {
