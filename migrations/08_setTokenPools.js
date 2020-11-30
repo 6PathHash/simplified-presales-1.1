@@ -14,24 +14,33 @@ async function setTokenPools(accounts,networkName) {
   const presale = await LidSimplifiedPresale.deployed()
 
   const poolsBP = config.presale.tokenPoolsBP
-
-  await presale.setTokenPools(
-    poolsBP.liquidity,
-    poolsBP.presale,
-    [
-      config.presale.teamFund,
+  
+  let poolAddresses = [
       config.presale.projectFund,
       config.presale.lidFund,
       config.presale.marketingFund,
       config.presale.lidLiqLocker
-    ],
-    [
-      poolsBP.team,
+    ]
+ let poolAmounts = [
       poolsBP.project,
       poolsBP.lidFee,
       poolsBP.marketing,
       poolsBP.lidLiq
     ]
+  if(poolsBP.team != 0) {
+    poolAddresses.push(config.presale.teamFund)
+    poolAmounts.push(poolsBP.team)
+  }
+  if(poolsBP.project != 0) {
+    poolAddresses.push(config.presale.projectFund)
+    poolAmounts.push(poolsBP.project)
+  }
+ 
+  await presale.setTokenPools(
+    poolsBP.liquidity,
+    poolsBP.presale,
+    poolAddresses,
+    poolAmounts
   )
 }
 
