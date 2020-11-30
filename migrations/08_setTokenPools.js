@@ -16,12 +16,10 @@ async function setTokenPools(accounts,networkName) {
   const poolsBP = config.presale.tokenPoolsBP
   
   let poolAddresses = [
-      config.presale.projectFund,
       config.presale.lidFund,
       config.presale.lidLiqLocker
     ]
  let poolAmounts = [
-      poolsBP.project,
       poolsBP.lidFee,
       poolsBP.lidLiq
     ]
