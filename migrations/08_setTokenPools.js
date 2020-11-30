@@ -18,13 +18,11 @@ async function setTokenPools(accounts,networkName) {
   let poolAddresses = [
       config.presale.projectFund,
       config.presale.lidFund,
-      config.presale.marketingFund,
       config.presale.lidLiqLocker
     ]
  let poolAmounts = [
       poolsBP.project,
       poolsBP.lidFee,
-      poolsBP.marketing,
       poolsBP.lidLiq
     ]
   if(poolsBP.team != 0) {
@@ -34,6 +32,10 @@ async function setTokenPools(accounts,networkName) {
   if(poolsBP.project != 0) {
     poolAddresses.push(config.presale.projectFund)
     poolAmounts.push(poolsBP.project)
+  }
+  if(poolsBP.marketing != 0) {
+    poolAddresses.push(config.presale.marketingFund)
+    poolAmounts.push(poolsBP.marketing)
   }
  
   await presale.setTokenPools(
