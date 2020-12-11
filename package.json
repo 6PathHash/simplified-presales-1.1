@@ -8,7 +8,8 @@
     "@openzeppelin/contracts-ethereum-package": "^2.5.0",
     "@truffle/hdwallet-provider": "^1.0.36",
     "@uniswap/v2-core": "^1.0.1",
-    "core-util-is": "^1.0.2"
+    "core-util-is": "^1.0.2",
+    "truffle-plugin-verify": "^0.5.2"
   },
   "devDependencies": {
     "@openzeppelin/test-environment": "^0.1.4",
