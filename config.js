@@ -3,10 +3,10 @@ const { ether, BN } = require("@openzeppelin/test-helpers");
 let config = {};
 
 config.timer = {
-  startTime: 1605408240,
-  refundTime: 1605408240 + 86400,
-  endTime: 1605408240 + 86400 * 2,
-  softCap: ether("500")
+  startTime: 1607749200,
+  refundTime: 1607749200 + 86400,
+  endTime: 1607749200 + 86400 * 2,
+  softCap: ether("100")
 };
 
 config.redeemer = {
@@ -15,13 +15,13 @@ config.redeemer = {
 };
 
 config.presale = {
-  maxBuyPerAddress: ether("25"),
-  uniswapEthBP: 5000,
-  uniswapLidEthBP: 2000,
+  maxBuyPerAddress: ether("20"),
+  uniswapEthBP: 5500,
+  uniswapLidEthBP: 1500,
   uniswapTusdEthBP: 0,
   lidEthBP: 500,
-  hardcap: ether("750"),
-  token: "",
+  hardcap: ether("800"),
+  token: "0xdf666d442a737fb066f00cbd130a042ee5f9da29",
   uniswapRouter: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
   lidFund: "0xb63c4F8eCBd1ab926Ed9Cb90c936dffC0eb02cE2",
   access: "0xfD8e59814D601219bddd53879ADa1Ff75fD316e2",
@@ -34,12 +34,12 @@ config.presale = {
   teamLock: "",
   tokenPoolsBP: {
     marketing: 500,
-    team: 1461,
+    team: 0,
     lidFee: 100,
-    project: 2910,
-    liquidity: 1449,
-    presale: 3000,
-    lidLiq: 580,
+    project: 3300,
+    liquidity: 1925,
+    presale: 3500,
+    lidLiq: 675,
     tusdLiq: 0
   }
 };
