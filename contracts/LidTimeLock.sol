@@ -7,33 +7,35 @@ import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol
 import "./library/BasisPoints.sol";
 import "./LidSimplifiedPresale.sol";
 
-
 contract LidTimeLock is Initializable, Ownable {
-    using BasisPoints for uint;
-    using SafeMath for uint;
+    using BasisPoints for uint256;
+    using SafeMath for uint256;
 
-    uint public releaseInterval;
-    uint public releaseStart;
-    uint public releaseBP;
+    uint256 public releaseInterval;
+    uint256 public releaseStart;
+    uint256 public releaseBP;
 
-    uint public startingTokens;
-    uint public claimedTokens;
+    uint256 public startingTokens;
+    uint256 public claimedTokens;
 
     IERC20 private token;
 
     address releaseWallet;
-    
+
     LidSimplifiedPresale private presale;
 
     modifier onlyAfterStart {
-        uint finalEndTime = presale.finalEndTime();
-        require(finalEndTime != 0 && now > finalEndTime, "Has not yet started.");
+        uint256 finalEndTime = presale.finalEndTime();
+        require(
+            finalEndTime != 0 && now > finalEndTime,
+            "Has not yet started."
+        );
         _;
     }
 
     function initialize(
-        uint _releaseInterval,
-        uint _releaseBP,
+        uint256 _releaseInterval,
+        uint256 _releaseBP,
         address owner,
         IERC20 _token,
         LidSimplifiedPresale _presale,
@@ -53,17 +55,18 @@ contract LidTimeLock is Initializable, Ownable {
 
     function claimToken() external onlyAfterStart {
         startingTokens = token.balanceOf(address(this)).add(claimedTokens);
-        uint cycle = getCurrentCycleCount();
-        uint totalClaimAmount = cycle.mul(startingTokens.mulBP(releaseBP));
-        uint toClaim = totalClaimAmount.sub(claimedTokens);
-        if (token.balanceOf(address(this)) < toClaim) toClaim = token.balanceOf(address(this));
+        uint256 cycle = getCurrentCycleCount();
+        uint256 totalClaimAmount = cycle.mul(startingTokens.mulBP(releaseBP));
+        uint256 toClaim = totalClaimAmount.sub(claimedTokens);
+        if (token.balanceOf(address(this)) < toClaim)
+            toClaim = token.balanceOf(address(this));
         claimedTokens = claimedTokens.add(toClaim);
         token.transfer(releaseWallet, toClaim);
     }
 
     function reset(
-        uint _releaseInterval,
-        uint _releaseBP,
+        uint256 _releaseInterval,
+        uint256 _releaseBP,
         LidSimplifiedPresale _presale,
         address _releaseWallet
     ) external onlyOwner {
@@ -73,16 +76,13 @@ contract LidTimeLock is Initializable, Ownable {
         releaseWallet = _releaseWallet;
     }
 
-    function setPresale(
-        LidSimplifiedPresale _presale
-    ) external onlyOwner {
+    function setPresale(LidSimplifiedPresale _presale) external onlyOwner {
         presale = _presale;
     }
 
-    function getCurrentCycleCount() public view returns (uint) {
-        uint finalEndTime = presale.finalEndTime();
+    function getCurrentCycleCount() public view returns (uint256) {
+        uint256 finalEndTime = presale.finalEndTime();
         if (now <= finalEndTime || finalEndTime == 0) return 0;
         return now.sub(finalEndTime).div(releaseInterval).add(1);
     }
-
 }

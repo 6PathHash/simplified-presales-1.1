@@ -9,19 +9,18 @@ import "./uniswapV2Periphery/interfaces/IUniswapV2Router01.sol";
 import "./library/BasisPoints.sol";
 import "./LidSimplifiedPresaleTimer.sol";
 
-
 contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
-    using BasisPoints for uint;
-    using SafeMath for uint;
+    using BasisPoints for uint256;
+    using SafeMath for uint256;
 
-    uint public redeemBP;
-    uint public redeemInterval;
+    uint256 public redeemBP;
+    uint256 public redeemInterval;
 
-    uint public totalShares;
-    uint public totalDepositors;
-    mapping(address => uint) public accountDeposits;
-    mapping(address => uint) public accountShares;
-    mapping(address => uint) public accountClaimedTokens;
+    uint256 public totalShares;
+    uint256 public totalDepositors;
+    mapping(address => uint256) public accountDeposits;
+    mapping(address => uint256) public accountShares;
+    mapping(address => uint256) public accountClaimedTokens;
 
     address private presale;
 
@@ -31,8 +30,8 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
     }
 
     function initialize(
-        uint _redeemBP,
-        uint _redeemInterval,
+        uint256 _redeemBP,
+        uint256 _redeemInterval,
         address _presale,
         address owner
     ) external initializer {
@@ -43,38 +42,49 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
         presale = _presale;
     }
 
-    function setClaimed(address account, uint amount) external onlyPresaleContract {
-        accountClaimedTokens[account] = accountClaimedTokens[account].add(amount);
+    function setClaimed(address account, uint256 amount)
+        external
+        onlyPresaleContract
+    {
+        accountClaimedTokens[account] = accountClaimedTokens[account].add(
+            amount
+        );
     }
 
-    function setDeposit(address account, uint deposit) external onlyPresaleContract {
-        if (accountDeposits[account] == 0) totalDepositors = totalDepositors.add(1);
+    function setDeposit(address account, uint256 deposit)
+        external
+        onlyPresaleContract
+    {
+        if (accountDeposits[account] == 0)
+            totalDepositors = totalDepositors.add(1);
         accountDeposits[account] = accountDeposits[account].add(deposit);
-        uint sharesToAdd = deposit;
+        uint256 sharesToAdd = deposit;
         accountShares[account] = accountShares[account].add(sharesToAdd);
         totalShares = totalShares.add(sharesToAdd);
     }
 
-    function calculateRatePerEth(uint totalPresaleTokens, uint hardCap) external pure returns (uint) {
-        return totalPresaleTokens
-        .mul(1 ether)
-        .div(
-            getMaxShares(hardCap)
-        );
+    function calculateRatePerEth(uint256 totalPresaleTokens, uint256 hardCap)
+        external
+        pure
+        returns (uint256)
+    {
+        return totalPresaleTokens.mul(1 ether).div(getMaxShares(hardCap));
     }
 
     function calculateReedemable(
         address account,
-        uint finalEndTime,
-        uint totalPresaleTokens
-    ) external view returns (uint) {
+        uint256 finalEndTime,
+        uint256 totalPresaleTokens
+    ) external view returns (uint256) {
         if (finalEndTime == 0) return 0;
         if (finalEndTime >= now) return 0;
-        uint earnedTokens = accountShares[account].mul(totalPresaleTokens).div(totalShares);
-        uint claimedTokens = accountClaimedTokens[account];
-        uint cycles = now.sub(finalEndTime).div(redeemInterval).add(1);
-        uint totalRedeemable = earnedTokens.mulBP(redeemBP).mul(cycles);
-        uint claimable;
+        uint256 earnedTokens = accountShares[account]
+            .mul(totalPresaleTokens)
+            .div(totalShares);
+        uint256 claimedTokens = accountClaimedTokens[account];
+        uint256 cycles = now.sub(finalEndTime).div(redeemInterval).add(1);
+        uint256 totalRedeemable = earnedTokens.mulBP(redeemBP).mul(cycles);
+        uint256 claimable;
         if (totalRedeemable >= earnedTokens) {
             claimable = earnedTokens.sub(claimedTokens);
         } else {
@@ -83,7 +93,7 @@ contract LidSimplifiedPresaleRedeemer is Initializable, Ownable {
         return claimable;
     }
 
-    function getMaxShares(uint hardCap) public pure returns (uint) {
+    function getMaxShares(uint256 hardCap) public pure returns (uint256) {
         return hardCap;
     }
 }
