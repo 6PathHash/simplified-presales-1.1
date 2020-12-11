@@ -23,7 +23,7 @@ config.presale = {
   hardcap: ether("750"),
   token: "",
   uniswapRouter: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-  lidFund: "0xb63c4F8eCBd1ab926Ed9Cb90c936dffC0eb02cE2",
+  lidFund: "0x2afE616c6E7999EF5a569dD72830023066c0875f",
   access: "0xfD8e59814D601219bddd53879ADa1Ff75fD316e2",
   marketingFund: "",
   teamFund: "",
