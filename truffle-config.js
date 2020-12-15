@@ -16,9 +16,9 @@ module.exports = {
         );
       },
       network_id: 1,
-      gasPrice: 50e9,
+      gasPrice: 90e9,
       from: publicKey,
-      gas: 8e6
+      gas: 5e6
     }
   },
   api_keys: {
