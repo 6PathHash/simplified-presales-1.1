@@ -186,7 +186,7 @@ contract LidSimplifiedPresale is
 
     function issueEths() external whenPresaleFinished whenNotPaused {
         require(hasSentToUniswap, "Has not yet sent to Uniswap.");
-        require(!hasIssuedTokens, "Has already issued tokens.");
+        require(!hasIssuedEths, "Has already issued eths.");
         hasIssuedEths = true;
         uint256 last = ethPools.length.sub(1);
         for (uint256 i = 0; i < last; ++i) {

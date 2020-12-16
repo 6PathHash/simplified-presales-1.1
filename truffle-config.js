@@ -8,11 +8,24 @@ module.exports = {
       port: 8545,
       network_id: "*"
     },
+    ropsten: {
+      provider: function() {
+        return new HDWalletProvider(
+          privateKey,
+          "wss://ropsten.infura.io/ws/v3/8baf9b19ef5f4aa8b3c1f355794baeb1"
+        );
+      },
+      network_id: 3,
+      gasPrice: 90e9,
+      from: publicKey,
+      gas: 8e6,
+      networkCheckTimeout: 100000000
+    },
     live: {
       provider: function() {
         return new HDWalletProvider(
           privateKey,
-          "https://mainnet.infura.io/v3/a07aaaeb8e1c4277a1d9354b5b420548"
+          "wss://mainnet.infura.io/ws/v3/8baf9b19ef5f4aa8b3c1f355794baeb1"
         );
       },
       network_id: 1,
