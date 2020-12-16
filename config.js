@@ -11,7 +11,7 @@ config.timer = {
 
 config.redeemer = {
   redeemBP: 10000,
-  redeemInterval: 1
+  redeemInterval: 3600
 };
 
 config.presale = {
