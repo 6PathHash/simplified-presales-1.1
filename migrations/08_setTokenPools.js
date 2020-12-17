@@ -1,51 +1,41 @@
-const { scripts, ConfigManager } = require("@openzeppelin/cli")
-const { add, push, create } = scripts
-const {publicKey} = require("../privatekey")
+const { scripts, ConfigManager } = require("@openzeppelin/cli");
+const { add, push, create } = scripts;
+const { publicKey } = require("../privatekey");
 
-const config = require("../config")
+const config = require("../config");
 
-const LidSimplifiedPresale = artifacts.require("LidSimplifiedPresale")
+const LidSimplifiedPresale = artifacts.require("LidSimplifiedPresale");
 
-async function setTokenPools(accounts,networkName) {
-  let owner = accounts[0]
+async function setTokenPools(accounts, networkName) {
+  const presale = await LidSimplifiedPresale.deployed();
 
-  const timelockParams = config.timelock
+  const presaleConfig = config.presale;
+  const ethPools = Object.values(presaleConfig.ethPoolAddress).filter(
+    (el) => !!el
+  );
+  const ethPoolBPs = Object.values(presaleConfig.ethPoolBPs).filter(
+    (el) => !!el
+  );
 
-  const presale = await LidSimplifiedPresale.deployed()
+  await presale.setEthPools(presaleConfig.uniswapEthBP, ethPools, ethPoolBPs);
 
-  const poolsBP = config.presale.tokenPoolsBP
-  
-  let poolAddresses = [
-      config.presale.lidFund,
-      config.presale.lidLiqLocker
-    ]
- let poolAmounts = [
-      poolsBP.lidFee,
-      poolsBP.lidLiq
-    ]
-  if(poolsBP.team != 0) {
-    poolAddresses.push(config.presale.teamFund)
-    poolAmounts.push(poolsBP.team)
-  }
-  if(poolsBP.project != 0) {
-    poolAddresses.push(config.presale.projectFund)
-    poolAmounts.push(poolsBP.project)
-  }
-  if(poolsBP.marketing != 0) {
-    poolAddresses.push(config.presale.marketingFund)
-    poolAmounts.push(poolsBP.marketing)
-  }
- 
+  const tokenPools = Object.values(presaleConfig.tokenPoolAddress).filter(
+    (el) => !!el
+  );
+  const tokenPoolBPs = Object.values(presaleConfig.tokenPoolBPs).filter(
+    (el) => !!el
+  );
+
   await presale.setTokenPools(
-    poolsBP.liquidity,
-    poolsBP.presale,
-    poolAddresses,
-    poolAmounts
-  )
+    presaleConfig.uniswapTokenBP,
+    presaleConfig.presaleTokenBP,
+    tokenPools,
+    tokenPoolBPs
+  );
 }
 
 module.exports = function(deployer, networkName, accounts) {
   deployer.then(async () => {
-    await setTokenPools(accounts,networkName)
-  })
-}
+    await setTokenPools(accounts, networkName);
+  });
+};

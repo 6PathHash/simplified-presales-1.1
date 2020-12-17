@@ -5,23 +5,22 @@ import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 
-
 contract LidSimplifiedPresaleTimer is Initializable, Ownable {
-    using SafeMath for uint;
+    using SafeMath for uint256;
 
-    uint public startTime;
-    uint public endTime;
-    uint public softCap;
+    uint256 public startTime;
+    uint256 public endTime;
+    uint256 public softCap;
     address public presale;
 
-    uint public refundTime;
-    uint public maxBalance;
+    uint256 public refundTime;
+    uint256 public maxBalance;
 
     function initialize(
-        uint _startTime,
-        uint _refundTime,
-        uint _endTime,
-        uint _softCap,
+        uint256 _startTime,
+        uint256 _refundTime,
+        uint256 _endTime,
+        uint256 _softCap,
         address _presale,
         address owner
     ) external initializer {
@@ -35,19 +34,19 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
         _transferOwnership(owner);
     }
 
-    function setStartTime(uint time) external onlyOwner {
+    function setStartTime(uint256 time) external onlyOwner {
         startTime = time;
     }
 
-    function setRefundTime(uint time) external onlyOwner {
+    function setRefundTime(uint256 time) external onlyOwner {
         refundTime = time;
     }
 
-    function setEndTime(uint time) external onlyOwner {
+    function setEndTime(uint256 time) external onlyOwner {
         endTime = time;
     }
 
-    function updateSoftCap(uint valueWei) external onlyOwner {
+    function updateSoftCap(uint256 valueWei) external onlyOwner {
         softCap = valueWei;
     }
 
@@ -60,5 +59,4 @@ contract LidSimplifiedPresaleTimer is Initializable, Ownable {
     function isStarted() external view returns (bool) {
         return (startTime != 0 && now > startTime);
     }
-
 }

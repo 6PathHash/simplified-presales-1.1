@@ -5,12 +5,11 @@ import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 //TODO: Replace with abstract sc or interface. mocks should only be for testing
 import "./mocks/LidStaking.sol";
 
-
 contract LidSimplifiedPresaleAccess is Initializable {
-    using SafeMath for uint;
+    using SafeMath for uint256;
     LidStaking private staking;
 
-    uint[5] private cutoffs;
+    uint256[5] private cutoffs;
 
     function initialize(LidStaking _staking) external initializer {
         staking = _staking;
@@ -24,12 +23,16 @@ contract LidSimplifiedPresaleAccess is Initializable {
         ];
     }
 
-    function getAccessTime(address account, uint startTime) external view returns (uint accessTime) {
-        uint stakeValue = staking.stakeValue(account);
+    function getAccessTime(address account, uint256 startTime)
+        external
+        view
+        returns (uint256 accessTime)
+    {
+        uint256 stakeValue = staking.stakeValue(account);
         if (stakeValue == 0) return startTime.add(15 minutes);
         if (stakeValue >= cutoffs[0]) return startTime;
-        uint i=0;
-        uint stake2 = cutoffs[0];
+        uint256 i = 0;
+        uint256 stake2 = cutoffs[0];
         while (stake2 > stakeValue && i < cutoffs.length) {
             i++;
             stake2 = cutoffs[i];
