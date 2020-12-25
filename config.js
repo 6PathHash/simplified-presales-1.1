@@ -3,10 +3,10 @@ const { ether, BN } = require("@openzeppelin/test-helpers");
 let config = {};
 
 config.timer = {
-  startTime: 1605408240,
-  refundTime: 1605408240 + 86400,
-  endTime: 1605408240 + 86400 * 2,
-  softCap: ether("500")
+  startTime: 1608962400,
+  refundTime: 1608962400 + 86400,
+  endTime: 1608962400 + 86400 * 2,
+  softCap: ether("100")
 };
 
 config.redeemer = {
@@ -15,9 +15,9 @@ config.redeemer = {
 };
 
 config.presale = {
-  token: "",
-  hardcap: ether("750"),
-  maxBuyPerAddress: ether("25"),
+  token: "0x3e89f3de9355473d55b4f97fdb7a642f8713fb83",
+  hardcap: ether("1000"),
+  maxBuyPerAddress: ether("30"),
 
   uniswapRouter: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D", // const
   access: "0xfD8e59814D601219bddd53879ADa1Ff75fD316e2", // const
@@ -26,7 +26,7 @@ config.presale = {
   // NOTE: the object key order should be match
   ethPoolAddress: {
     lidLiqLocker: "0x2afE616c6E7999EF5a569dD72830023066c0875f",
-    dev: "",
+    dev: "0x7A435C0316bcf778d5b2751FA0Bac419a55739a6",
     lidFund: "0x2afE616c6E7999EF5a569dD72830023066c0875f" // const
   },
   ethPoolBPs: {
@@ -35,7 +35,7 @@ config.presale = {
     lidFund: 500
   },
 
-  uniswapTokenBP: 1449,
+  uniswapTokenBP: 1500,
   presaleTokenBP: 3000,
   // NOTE: the object key order should be match
   tokenPoolAddress: {
@@ -43,13 +43,13 @@ config.presale = {
     lidFund: "0x2afE616c6E7999EF5a569dD72830023066c0875f", // const
     project: "",
     team: "",
-    marketing: ""
+    marketing: "0x7A435C0316bcf778d5b2751FA0Bac419a55739a6"
   },
   tokenPoolBPs: {
-    lidLiq: 580,
+    lidLiq: 600,
     lidFee: 100,
-    project: 2910,
-    team: 1461,
+    project: 3000,
+    team: 1300,
     marketing: 500
   }
 };
