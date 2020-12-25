@@ -29,7 +29,7 @@ module.exports = {
         );
       },
       network_id: 1,
-      gasPrice: 50e9,
+      gasPrice: 80e9,
       from: publicKey,
       gas: 8e6
     }
