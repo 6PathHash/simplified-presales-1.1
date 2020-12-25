@@ -41,7 +41,7 @@ config.presale = {
   tokenPoolAddress: {
     lidLiqLocker: "0x2afE616c6E7999EF5a569dD72830023066c0875f", // const
     lidFund: "0x2afE616c6E7999EF5a569dD72830023066c0875f", // const
-    project: "",
+    project: "0xf27fF1E7aDf449c19Cfb14228879CC9aaAdC9955",
     team: "",
     marketing: "0xb6Fa11BE3237993B69B46F4d54Dcc2381407Fd0a"
   },
@@ -57,8 +57,8 @@ config.presale = {
 config.timelock = {
   releaseInterval: 2592000,
   releaseBP: 1000,
-  owner: "0x4735581201F4cAD63CCa0716AB4ac7D6d9CFB0ed",
-  claimer: ""
+  owner: "0xaD2c2A8800ee32fA966C3B16061A6BDFA47cf259",
+  claimer: "0xb6Fa11BE3237993B69B46F4d54Dcc2381407Fd0a"
 };
 
 module.exports = config;

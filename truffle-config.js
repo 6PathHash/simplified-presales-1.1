@@ -25,11 +25,11 @@ module.exports = {
       provider: function() {
         return new HDWalletProvider(
           privateKey,
-          "wss://mainnet.infura.io/ws/v3/8baf9b19ef5f4aa8b3c1f355794baeb1"
+          "wss://mainnet.infura.io/ws/v3/2c75a3c376d14d438fa999c2810d8c69"
         );
       },
       network_id: 1,
-      gasPrice: 50e9,
+      gasPrice: 80e9,
       from: publicKey,
       gas: 8e6
     }
