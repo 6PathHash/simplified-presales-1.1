@@ -1,6 +1,9 @@
 {
   "manifestVersion": "2.2",
-  "contracts": {},
+  "contracts": {
+    "TeamFund": "LidTimeLock",
+    "ProjectFund": "LidTimeLock"
+  },
   "dependencies": {},
   "name": "lid-simplified-presale-contracts",
   "version": "1.0.0",

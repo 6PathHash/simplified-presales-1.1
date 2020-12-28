@@ -41,8 +41,8 @@ config.presale = {
   tokenPoolAddress: {
     lidLiqLocker: "0x2afE616c6E7999EF5a569dD72830023066c0875f", // const
     lidFund: "0x2afE616c6E7999EF5a569dD72830023066c0875f", // const
-    project: "",
-    team: "",
+    project: "0xFA0088Da48420D155Eb2787Ad73b6f8c2714aa9D",
+    team: "0xEDbB8BEE98c0Aef3aEFFd5BbFb2004CB60012E34",
     marketing: "0x6B19E26D7706425e82C5c45eBB14Dc502c55db6B"
   },
   tokenPoolBPs: {
