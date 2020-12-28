@@ -2,7 +2,10 @@
   "manifestVersion": "2.2",
   "contracts": {
     "TeamFund": "LidTimeLock",
-    "ProjectFund": "LidTimeLock"
+    "ProjectFund": "LidTimeLock",
+    "LidSimplifiedPresaleTimer": "LidSimplifiedPresaleTimer",
+    "LidSimplifiedPresaleRedeemer": "LidSimplifiedPresaleRedeemer",
+    "LidSimplifiedPresale": "LidSimplifiedPresale"
   },
   "dependencies": {},
   "name": "lid-simplified-presale-contracts",

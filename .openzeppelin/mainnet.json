@@ -1,11 +1,11 @@
 {
   "contracts": {
     "TeamFund": {
-      "address": "0xb311b0d2270520EddE5101fcDA8ACf8fbeb6090D",
-      "constructorCode": "60806040526117dc806100136000396000f3fe",
-      "bodyBytecodeHash": "2049c7cafc999ac32923706feeab9cf94606d3574c98ed0447236390207025bb",
-      "localBytecodeHash": "d66fe22ed55c654f9d87bf8c6494d36225fe633328deea54c012af45684d0684",
-      "deployedBytecodeHash": "d66fe22ed55c654f9d87bf8c6494d36225fe633328deea54c012af45684d0684",
+      "address": "0x11dfE0ef752E99876911dfA9ADE2F1E0bc1024AA",
+      "constructorCode": "6080604052610fb6806100136000396000f3fe",
+      "bodyBytecodeHash": "5b633cc0340d323aea9fee8fe1332197e9bd97071d2cc13cefe154031d8df28d",
+      "localBytecodeHash": "cc3f6fec2cd5906f6191c51921bb5868280a25a1fd5e0c347a7b610a85cd7248",
+      "deployedBytecodeHash": "cc3f6fec2cd5906f6191c51921bb5868280a25a1fd5e0c347a7b610a85cd7248",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -35,105 +35,381 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1175,
+          "astId": 8083,
           "type": "t_bool",
-          "src": "757:24:9"
+          "src": "757:24:35"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1177,
+          "astId": 8085,
           "type": "t_bool",
-          "src": "876:25:9"
+          "src": "876:25:35"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 1239,
+          "astId": 8147,
           "type": "t_array:50<t_uint256>",
-          "src": "1982:29:9"
+          "src": "1982:29:35"
         },
         {
           "contract": "Ownable",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 535,
+          "astId": 7443,
           "type": "t_address",
-          "src": "526:22:5"
+          "src": "526:22:31"
         },
         {
           "contract": "Ownable",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 648,
+          "astId": 7556,
           "type": "t_array:50<t_uint256>",
-          "src": "2471:29:5"
+          "src": "2471:29:31"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "releaseInterval",
-          "astId": 3203,
+          "astId": 10111,
           "type": "t_uint256",
-          "src": "540:30:17"
+          "src": "540:30:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "releaseStart",
-          "astId": 3205,
+          "astId": 10113,
           "type": "t_uint256",
-          "src": "577:27:17"
+          "src": "577:27:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "releaseBP",
-          "astId": 3207,
+          "astId": 10115,
           "type": "t_uint256",
-          "src": "611:24:17"
+          "src": "611:24:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "startingTokens",
-          "astId": 3209,
+          "astId": 10117,
           "type": "t_uint256",
-          "src": "644:29:17"
+          "src": "644:29:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "claimedTokens",
-          "astId": 3211,
+          "astId": 10119,
           "type": "t_uint256",
-          "src": "680:28:17"
+          "src": "680:28:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "token",
-          "astId": 3213,
+          "astId": 10121,
           "type": "t_address",
-          "src": "717:20:17"
+          "src": "717:20:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "releaseWallet",
-          "astId": 3215,
+          "astId": 10123,
           "type": "t_address",
-          "src": "746:21:17"
+          "src": "746:21:43"
         },
         {
           "contract": "LidTimeLock",
           "path": "contracts/LidTimeLock.sol",
           "label": "presale",
-          "astId": 3217,
+          "astId": 10125,
           "type": "t_address",
-          "src": "776:36:17"
+          "src": "776:36:43"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [],
+        "storageDiff": []
+      }
+    },
+    "ProjectFund": {
+      "address": "0x13197767c227867d29Bf88e69Fd7C9D161a6394b",
+      "constructorCode": "6080604052610fb6806100136000396000f3fe",
+      "bodyBytecodeHash": "5b633cc0340d323aea9fee8fe1332197e9bd97071d2cc13cefe154031d8df28d",
+      "localBytecodeHash": "cc3f6fec2cd5906f6191c51921bb5868280a25a1fd5e0c347a7b610a85cd7248",
+      "deployedBytecodeHash": "cc3f6fec2cd5906f6191c51921bb5868280a25a1fd5e0c347a7b610a85cd7248",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 8083,
+          "type": "t_bool",
+          "src": "757:24:35"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 8085,
+          "type": "t_bool",
+          "src": "876:25:35"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 8147,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:35"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 7443,
+          "type": "t_address",
+          "src": "526:22:31"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 7556,
+          "type": "t_array:50<t_uint256>",
+          "src": "2471:29:31"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "releaseInterval",
+          "astId": 10111,
+          "type": "t_uint256",
+          "src": "540:30:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "releaseStart",
+          "astId": 10113,
+          "type": "t_uint256",
+          "src": "577:27:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "releaseBP",
+          "astId": 10115,
+          "type": "t_uint256",
+          "src": "611:24:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "startingTokens",
+          "astId": 10117,
+          "type": "t_uint256",
+          "src": "644:29:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "claimedTokens",
+          "astId": 10119,
+          "type": "t_uint256",
+          "src": "680:28:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "token",
+          "astId": 10121,
+          "type": "t_address",
+          "src": "717:20:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "releaseWallet",
+          "astId": 10123,
+          "type": "t_address",
+          "src": "746:21:43"
+        },
+        {
+          "contract": "LidTimeLock",
+          "path": "contracts/LidTimeLock.sol",
+          "label": "presale",
+          "astId": 10125,
+          "type": "t_address",
+          "src": "776:36:43"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [],
+        "storageDiff": []
+      }
+    },
+    "LidSimplifiedPresaleTimer": {
+      "address": "0x38714036FF0A24754b6649C18D221841ef274c5C",
+      "constructorCode": "608060405261093b806100136000396000f3fe",
+      "bodyBytecodeHash": "b000995b18131dcf0c1cd7eefd34b244d1ede5674cfe7f74cf822973e247332e",
+      "localBytecodeHash": "22f21e0479cba1916c4b12e4f258f70de2159254653a3b5d610b1599132b622f",
+      "deployedBytecodeHash": "22f21e0479cba1916c4b12e4f258f70de2159254653a3b5d610b1599132b622f",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 8083,
+          "type": "t_bool",
+          "src": "757:24:35"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 8085,
+          "type": "t_bool",
+          "src": "876:25:35"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 8147,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:35"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 7443,
+          "type": "t_address",
+          "src": "526:22:31"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 7556,
+          "type": "t_array:50<t_uint256>",
+          "src": "2471:29:31"
+        },
+        {
+          "contract": "LidSimplifiedPresaleTimer",
+          "path": "contracts/LidSimplifiedPresaleTimer.sol",
+          "label": "startTime",
+          "astId": 9940,
+          "type": "t_uint256",
+          "src": "438:24:42"
+        },
+        {
+          "contract": "LidSimplifiedPresaleTimer",
+          "path": "contracts/LidSimplifiedPresaleTimer.sol",
+          "label": "endTime",
+          "astId": 9942,
+          "type": "t_uint256",
+          "src": "469:22:42"
+        },
+        {
+          "contract": "LidSimplifiedPresaleTimer",
+          "path": "contracts/LidSimplifiedPresaleTimer.sol",
+          "label": "softCap",
+          "astId": 9944,
+          "type": "t_uint256",
+          "src": "498:22:42"
+        },
+        {
+          "contract": "LidSimplifiedPresaleTimer",
+          "path": "contracts/LidSimplifiedPresaleTimer.sol",
+          "label": "presale",
+          "astId": 9946,
+          "type": "t_address",
+          "src": "527:22:42"
+        },
+        {
+          "contract": "LidSimplifiedPresaleTimer",
+          "path": "contracts/LidSimplifiedPresaleTimer.sol",
+          "label": "refundTime",
+          "astId": 9948,
+          "type": "t_uint256",
+          "src": "558:25:42"
+        },
+        {
+          "contract": "LidSimplifiedPresaleTimer",
+          "path": "contracts/LidSimplifiedPresaleTimer.sol",
+          "label": "maxBalance",
+          "astId": 9950,
+          "type": "t_uint256",
+          "src": "590:25:42"
         }
       ],
       "warnings": {
@@ -144,12 +420,12 @@
         "uninitializedBaseContracts": []
       }
     },
-    "ProjectFund": {
-      "address": "0x2Ca90c5782314ba308549DeAc21276ACa9689177",
-      "constructorCode": "60806040526117dc806100136000396000f3fe",
-      "bodyBytecodeHash": "2049c7cafc999ac32923706feeab9cf94606d3574c98ed0447236390207025bb",
-      "localBytecodeHash": "d66fe22ed55c654f9d87bf8c6494d36225fe633328deea54c012af45684d0684",
-      "deployedBytecodeHash": "d66fe22ed55c654f9d87bf8c6494d36225fe633328deea54c012af45684d0684",
+    "LidSimplifiedPresaleRedeemer": {
+      "address": "0x784357294ac9E99f1677fB5Bc29434f02A84e5fe",
+      "constructorCode": "6080604052610dd0806100136000396000f3fe",
+      "bodyBytecodeHash": "1461150c6fea91bbc6cecfb9be0523e0f320925e78971db41dcad057acc5052b",
+      "localBytecodeHash": "8a3c4b9b9aeeb7cbd82b3a9c8526bb913b72d53f8ea938c39c3251641488d803",
+      "deployedBytecodeHash": "8a3c4b9b9aeeb7cbd82b3a9c8526bb913b72d53f8ea938c39c3251641488d803",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -172,6 +448,12 @@
           "id": "t_address",
           "kind": "elementary",
           "label": "address"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
         }
       },
       "storage": [
@@ -179,105 +461,464 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1175,
+          "astId": 8083,
           "type": "t_bool",
-          "src": "757:24:9"
+          "src": "757:24:35"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1177,
+          "astId": 8085,
           "type": "t_bool",
-          "src": "876:25:9"
+          "src": "876:25:35"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 1239,
+          "astId": 8147,
           "type": "t_array:50<t_uint256>",
-          "src": "1982:29:9"
+          "src": "1982:29:35"
         },
         {
           "contract": "Ownable",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 535,
+          "astId": 7443,
           "type": "t_address",
-          "src": "526:22:5"
+          "src": "526:22:31"
         },
         {
           "contract": "Ownable",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 648,
+          "astId": 7556,
           "type": "t_array:50<t_uint256>",
-          "src": "2471:29:5"
+          "src": "2471:29:31"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "releaseInterval",
-          "astId": 3203,
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "redeemBP",
+          "astId": 1195,
           "type": "t_uint256",
-          "src": "540:30:17"
+          "src": "716:23:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "releaseStart",
-          "astId": 3205,
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "redeemInterval",
+          "astId": 1197,
           "type": "t_uint256",
-          "src": "577:27:17"
+          "src": "746:29:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "releaseBP",
-          "astId": 3207,
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "totalShares",
+          "astId": 1199,
           "type": "t_uint256",
-          "src": "611:24:17"
+          "src": "784:26:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "startingTokens",
-          "astId": 3209,
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "totalDepositors",
+          "astId": 1201,
           "type": "t_uint256",
-          "src": "644:29:17"
+          "src": "817:30:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "claimedTokens",
-          "astId": 3211,
-          "type": "t_uint256",
-          "src": "680:28:17"
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "accountDeposits",
+          "astId": 1205,
+          "type": "t_mapping<t_uint256>",
+          "src": "854:50:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "token",
-          "astId": 3213,
-          "type": "t_address",
-          "src": "717:20:17"
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "accountShares",
+          "astId": 1209,
+          "type": "t_mapping<t_uint256>",
+          "src": "911:48:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
-          "label": "releaseWallet",
-          "astId": 3215,
-          "type": "t_address",
-          "src": "746:21:17"
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
+          "label": "accountClaimedTokens",
+          "astId": 1213,
+          "type": "t_mapping<t_uint256>",
+          "src": "966:55:2"
         },
         {
-          "contract": "LidTimeLock",
-          "path": "contracts/LidTimeLock.sol",
+          "contract": "LidSimplifiedPresaleRedeemer",
+          "path": "contracts/LidSimplifiedPresaleRedeemer.sol",
           "label": "presale",
-          "astId": 3217,
+          "astId": 1215,
           "type": "t_address",
-          "src": "776:36:17"
+          "src": "1030:23:2"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "LidSimplifiedPresale": {
+      "address": "0x536fC99042Ee80A746d561D062A446D262B31255",
+      "constructorCode": "6080604052613edf806100136000396000f3fe",
+      "bodyBytecodeHash": "000d552e8a2e074aa2bce79a6925849ab4259c949cbd19b3ee13dff9c8004ef4",
+      "localBytecodeHash": "328d91548d69b8885c514605bc502ea8eb930d73491fc645bb91cacd82fcc382",
+      "deployedBytecodeHash": "328d91548d69b8885c514605bc502ea8eb930d73491fc645bb91cacd82fcc382",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<Roles.Role>": {
+          "id": "t_struct<Roles.Role>",
+          "kind": "struct",
+          "label": "Roles.Role",
+          "members": [
+            {
+              "label": "bearer",
+              "astId": 6943,
+              "type": "t_mapping<t_bool>",
+              "src": "150:32:27"
+            }
+          ]
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_array:dyn<t_address>": {
+          "id": "t_array:dyn<t_address>",
+          "valueType": "t_address",
+          "length": "dyn",
+          "kind": "array",
+          "label": "address[]"
+        },
+        "t_array:dyn<t_uint256>": {
+          "id": "t_array:dyn<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "dyn",
+          "kind": "array",
+          "label": "uint256[]"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 8083,
+          "type": "t_bool",
+          "src": "757:24:35"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 8085,
+          "type": "t_bool",
+          "src": "876:25:35"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 8147,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:35"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 7443,
+          "type": "t_address",
+          "src": "526:22:31"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 7556,
+          "type": "t_array:50<t_uint256>",
+          "src": "2471:29:31"
+        },
+        {
+          "contract": "ReentrancyGuard",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol",
+          "label": "_guardCounter",
+          "astId": 8045,
+          "type": "t_uint256",
+          "src": "733:29:34"
+        },
+        {
+          "contract": "ReentrancyGuard",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol",
+          "label": "______gap",
+          "astId": 8078,
+          "type": "t_array:50<t_uint256>",
+          "src": "1563:29:34"
+        },
+        {
+          "contract": "PauserRole",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/access/roles/PauserRole.sol",
+          "label": "_pausers",
+          "astId": 7040,
+          "type": "t_struct<Roles.Role>",
+          "src": "327:27:28"
+        },
+        {
+          "contract": "PauserRole",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/access/roles/PauserRole.sol",
+          "label": "______gap",
+          "astId": 7140,
+          "type": "t_array:50<t_uint256>",
+          "src": "1193:29:28"
+        },
+        {
+          "contract": "Pausable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/lifecycle/Pausable.sol",
+          "label": "_paused",
+          "astId": 7162,
+          "type": "t_bool",
+          "src": "909:20:29"
+        },
+        {
+          "contract": "Pausable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/lifecycle/Pausable.sol",
+          "label": "______gap",
+          "astId": 7245,
+          "type": "t_array:50<t_uint256>",
+          "src": "2163:29:29"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "maxBuyPerAddress",
+          "astId": 28,
+          "type": "t_uint256",
+          "src": "931:31:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "uniswapEthBP",
+          "astId": 30,
+          "type": "t_uint256",
+          "src": "971:27:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "ethPools",
+          "astId": 33,
+          "type": "t_array:dyn<t_address>",
+          "src": "1005:25:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "ethPoolBPs",
+          "astId": 36,
+          "type": "t_array:dyn<t_uint256>",
+          "src": "1037:27:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "uniswapTokenBP",
+          "astId": 38,
+          "type": "t_uint256",
+          "src": "1073:29:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "presaleTokenBP",
+          "astId": 40,
+          "type": "t_uint256",
+          "src": "1109:29:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "tokenPools",
+          "astId": 43,
+          "type": "t_array:dyn<t_address>",
+          "src": "1145:27:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "tokenPoolBPs",
+          "astId": 46,
+          "type": "t_array:dyn<t_uint256>",
+          "src": "1179:29:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "hardcap",
+          "astId": 48,
+          "type": "t_uint256",
+          "src": "1217:22:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "totalTokens",
+          "astId": 50,
+          "type": "t_uint256",
+          "src": "1246:26:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "hasSentToUniswap",
+          "astId": 52,
+          "type": "t_bool",
+          "src": "1281:28:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "hasIssuedTokens",
+          "astId": 54,
+          "type": "t_bool",
+          "src": "1316:27:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "hasIssuedEths",
+          "astId": 56,
+          "type": "t_bool",
+          "src": "1350:25:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "finalEndTime",
+          "astId": 58,
+          "type": "t_uint256",
+          "src": "1384:27:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "finalEth",
+          "astId": 60,
+          "type": "t_uint256",
+          "src": "1418:23:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "token",
+          "astId": 62,
+          "type": "t_address",
+          "src": "1450:20:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "uniswapRouter",
+          "astId": 64,
+          "type": "t_address",
+          "src": "1477:40:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "timer",
+          "astId": 66,
+          "type": "t_address",
+          "src": "1524:39:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "redeemer",
+          "astId": 68,
+          "type": "t_address",
+          "src": "1570:45:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "access",
+          "astId": 70,
+          "type": "t_address",
+          "src": "1622:41:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "earnedReferrals",
+          "astId": 74,
+          "type": "t_mapping<t_uint256>",
+          "src": "1672:50:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "referralCounts",
+          "astId": 78,
+          "type": "t_mapping<t_uint256>",
+          "src": "1731:49:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "refundedEth",
+          "astId": 82,
+          "type": "t_mapping<t_uint256>",
+          "src": "1789:46:0"
+        },
+        {
+          "contract": "LidSimplifiedPresale",
+          "path": "contracts/LidSimplifiedPresale.sol",
+          "label": "isRefunding",
+          "astId": 84,
+          "type": "t_bool",
+          "src": "1844:23:0"
         }
       ],
       "warnings": {
@@ -305,6 +946,33 @@
         "address": "0xFA0088Da48420D155Eb2787Ad73b6f8c2714aa9D",
         "version": "1.0.0",
         "implementation": "0x2Ca90c5782314ba308549DeAc21276ACa9689177",
+        "admin": "0x9e521bb7765D8161688b679AE593f0A6420b13Bd",
+        "kind": "Upgradeable"
+      }
+    ],
+    "lid-simplified-presale-contracts/LidSimplifiedPresaleTimer": [
+      {
+        "address": "0x052Dc3fcc0CB00b98BC6A467De0A780fBd2945eC",
+        "version": "1.0.0",
+        "implementation": "0x38714036FF0A24754b6649C18D221841ef274c5C",
+        "admin": "0x9e521bb7765D8161688b679AE593f0A6420b13Bd",
+        "kind": "Upgradeable"
+      }
+    ],
+    "lid-simplified-presale-contracts/LidSimplifiedPresaleRedeemer": [
+      {
+        "address": "0x05c428e594d2D1601C0F52F5fCd7D4fc6a1c328C",
+        "version": "1.0.0",
+        "implementation": "0x784357294ac9E99f1677fB5Bc29434f02A84e5fe",
+        "admin": "0x9e521bb7765D8161688b679AE593f0A6420b13Bd",
+        "kind": "Upgradeable"
+      }
+    ],
+    "lid-simplified-presale-contracts/LidSimplifiedPresale": [
+      {
+        "address": "0x95B76e1e5EA3E9f219f50f1a5429BF9428E96174",
+        "version": "1.0.0",
+        "implementation": "0x536fC99042Ee80A746d561D062A446D262B31255",
         "admin": "0x9e521bb7765D8161688b679AE593f0A6420b13Bd",
         "kind": "Upgradeable"
       }
